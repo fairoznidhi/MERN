@@ -1,8 +1,9 @@
 import { Box, Button, Drawer, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { useProducts } from "../../api/hooks";
+import { useProducts, useProductSearch } from "../../api/hooks";
 import { ProductForm } from "./ProductForm";
+import { SearchContext } from "../../contexts";
 
 const productPlaceholder = {
   id: "",
@@ -18,15 +19,26 @@ export const ProductDashboard = () => {
     useProducts();
   const [openForm, setOpenForm] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(productPlaceholder);
+  const { searchValue } = useContext(SearchContext);
+  const { results = [] } = useProductSearch(searchValue);
   const getFormattedRows = () =>
-    products.map((product) => ({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      categories: product.categories,
-      quantity: product.quantity,
-      data: product,
-    }));
+    results.length > 0
+      ? results.map((product) => ({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          categories: product.categories,
+          quantity: product.quantity,
+          data: product,
+        }))
+      : products.map((product) => ({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          categories: product.categories,
+          quantity: product.quantity,
+          data: product,
+        }));
   const onCloseForm = () => setOpenForm(false);
   const onAddProduct = (product) => {
     if (product.price < 10) {

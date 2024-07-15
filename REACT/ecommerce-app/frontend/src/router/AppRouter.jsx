@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {Layout,HomePage} from '../pages'
-import { DashboardPage } from "../pages/admin";
+import { DashboardPage,AdminProfilePage  } from "../pages/admin";
 
 const router = createBrowserRouter([
     {
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
               },
               {
                 path: 'profile',
-                element: <div>Admin Profile</div>
+                element: <AdminProfilePage/>
               },
               {
                 path: 'dashboard',

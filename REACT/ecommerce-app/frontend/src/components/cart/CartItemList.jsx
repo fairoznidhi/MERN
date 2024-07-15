@@ -15,7 +15,7 @@ export const CartItemList = () => {
                         <DeleteIcon />
                     </IconButton>
                     }>
-                    <ListItemText primary={`${cartItem.name} - $${cartItem.price} x 1`}/>
+                    <ListItemText primary={`${cartItem.name} - $${cartItem.price} x ${cartItem.quantity}`}/>
                 </ListItem>
             ))}
         </List>

@@ -1,56 +1,80 @@
-import React from 'react'
-import { Link,useNavigate } from 'react-router-dom'
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import { AppBar, Badge, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
-import {  AccountCircle, MailIcon, MenuIcon, MoreIcon, NotificationsIcon, SearchIcon, ShoppingCartIcon } from '../../common/icons';
-import { Cart } from '../cart';
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { styled, alpha } from "@mui/material/styles";
+import InputBase from "@mui/material/InputBase";
+import {
+  AppBar,
+  Badge,
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import {
+  AccountCircle,
+  MailIcon,
+  MenuIcon,
+  MoreIcon,
+  NotificationsIcon,
+  SearchIcon,
+  ShoppingCartIcon,
+} from "../../common/icons";
+import { Cart } from "../cart";
+import { SearchContext } from "../../contexts";
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
+  "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
-    width: 'auto',
+    width: "auto",
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
+  color: "inherit",
+  "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
   },
 }));
 
 export const Navbar = () => {
+  const {searchValue, setSearchValue} = useContext(SearchContext);
+
+  const handleSearchChange = (event) => {
+    setSearchValue(event.target.value);
+    console.log(`Search value changed to: ${searchValue}`);
+  };
+
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -63,10 +87,10 @@ export const Navbar = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  const routeToAdmin =(route)=>{
+  const routeToAdmin = (route) => {
     handleMenuClose();
-    navigate(route)
-  }
+    navigate(route);
+  };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -77,41 +101,45 @@ export const Navbar = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const menuId = 'primary-search-account-menu';
+  const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       id={menuId}
       keepMounted
       transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={()=>routeToAdmin('/admin/profile')}>Profile</MenuItem>
-      <MenuItem onClick={()=>routeToAdmin('/admin/dashboard')}>Dashboard</MenuItem>
+      <MenuItem onClick={() => routeToAdmin("/admin/profile")}>
+        Profile
+      </MenuItem>
+      <MenuItem onClick={() => routeToAdmin("/admin/dashboard")}>
+        Dashboard
+      </MenuItem>
     </Menu>
   );
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       id={mobileMenuId}
       keepMounted
       transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
@@ -143,10 +171,10 @@ export const Navbar = () => {
     </Menu>
   );
   return (
-    <Box flexGrow={1} >
+    <Box flexGrow={1}>
       <AppBar position="static">
         <Toolbar>
-        <IconButton
+          <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -159,24 +187,26 @@ export const Navbar = () => {
             variant="h6"
             noWrap
             component="div"
-            onClick={()=>navigate('/')}
-            sx={{ display: { xs: 'none', sm: 'block', cursor: 'pointer' } }}
+            onClick={() => navigate("/")}
+            sx={{ display: { xs: "none", sm: "block", cursor: "pointer" } }}
           >
             Simple E-Commerce App
           </Typography>
-        <Search>
+          <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
+              inputProps={{ "aria-label": "search" }}
+              // value={searchValue}
+               onChange={handleSearchChange}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <Cart/>
-          <IconButton
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Cart />
+            <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
@@ -197,7 +227,7 @@ export const Navbar = () => {
               <AccountCircle />
             </IconButton>
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="show more"
@@ -214,5 +244,5 @@ export const Navbar = () => {
       {renderMobileMenu}
       {renderMenu}
     </Box>
-  )
-}
+  );
+};

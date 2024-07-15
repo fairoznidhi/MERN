@@ -10,7 +10,7 @@ export const Cart = () => {
   return (
     <>
     <IconButton size="large" color="inherit" onClick={()=>{setOpenCart(true)}}>
-      <Badge badgeContent={cart.length} color="error">
+      <Badge badgeContent={cart.reduce((acc,item)=>acc+item.quantity,0)} color="error">
         < ShoppingCartIcon />
       </Badge>
     </IconButton>

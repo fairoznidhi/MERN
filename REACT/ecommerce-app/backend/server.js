@@ -132,6 +132,24 @@ app.delete('/api/products/:id', (req, res) => {
   res.json(deletedProduct);
 });
 
+// Search products by name
+app.get('/api/search', (req, res) => {
+  const { name, categories } = req.query;
+  let results = products;
+
+  if (name) {
+    results = results.filter((product) => product.name.toLowerCase().includes(name.toLowerCase()));
+  }
+
+  if (categories) {
+    results = results.filter((product) =>
+      product.categories.some((cat) => cat.toLowerCase().includes(categories.toLowerCase()))
+    );
+  }
+
+  res.json(results);
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
