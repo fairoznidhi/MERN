@@ -4,12 +4,12 @@ const app = express();
 const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
 
-//? Parse requests
+// Parse requests
 app.use(bodyParser.json());
 
 connectDB();
 
-//? routes
+// routes
 app.use("/api/tasks", require("./routes/api/tasks"));
 
 app.get("/", (req, res) => {

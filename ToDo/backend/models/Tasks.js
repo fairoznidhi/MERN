@@ -9,4 +9,5 @@ const TaskSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
 module.exports = Task = mongoose.model("Task", TaskSchema);
